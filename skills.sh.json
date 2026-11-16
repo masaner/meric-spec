@@ -1,0 +1,17 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Spec-Driven Lifecycle (Propose → Explore → Apply → Verify → Archive)",
+      "description": "Universal, stack-agnostic AI engineering workflow for zero-hallucination discovery, codebase style matching, sequential execution, verification, and permanent spec archival.",
+      "skills": [
+        "meric-spec-propose",
+        "meric-spec-explore",
+        "meric-spec-apply",
+        "meric-spec-verify",
+        "meric-spec-archive"
+      ]
+    }
+  ]
+}

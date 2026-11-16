@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="100%" role="img" aria-labelledby="mericspec-title mericspec-desc">
+  <title id="mericspec-title">Meric-Spec — Universal Spec-Driven AI Engineering Workflow</title>
+  <desc id="mericspec-desc">Hero banner for Meric-Spec: Propose, Explore, Apply, Verify, Archive skills for Antigravity, Claude Code, Cursor, Copilot, and Codex.</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090D16" />
+      <stop offset="55%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1E1B4B" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <pattern id="gridPattern" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#8B5CF6" stroke-opacity="0.08" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect x="2" y="2" width="1196" height="316" rx="18" fill="url(#bgGrad)" stroke="#312E81" stroke-width="2" />
+  <rect x="2" y="2" width="1196" height="316" rx="18" fill="url(#gridPattern)" />
+
+  <!-- Icon Emblem -->
+  <g transform="translate(52, 74)">
+    <rect x="0" y="0" width="108" height="148" rx="14" fill="#0F172A" stroke="url(#accentGrad)" stroke-width="3.5" />
+    <line x1="22" y1="34" x2="86" y2="34" stroke="#8B5CF6" stroke-width="4" stroke-linecap="round" />
+    <line x1="22" y1="58" x2="72" y2="58" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" />
+    <line x1="22" y1="82" x2="64" y2="82" stroke="#38BDF8" stroke-opacity="0.7" stroke-width="4" stroke-linecap="round" />
+    <path d="M26 112 L42 126 L78 96" fill="none" stroke="#10B981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Title & Subtitle -->
+  <g transform="translate(190, 62)">
+    <text x="0" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="48" font-weight="800" fill="#F8FAFC" letter-spacing="-0.8">
+      Meric-<tspan fill="#8B5CF6">Spec</tspan>
+    </text>
+    <rect x="2" y="48" width="140" height="4" rx="2" fill="url(#accentGrad)" />
+
+    <text x="0" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="19" font-weight="500" fill="#E2E8F0">
+      Universal Spec-Driven Engineering Skills for AI Coding Agents
+    </text>
+    <text x="0" y="108" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" fill="#94A3B8">
+      Zero-hallucination planning, style matching, verification, and knowledge archival for any language or framework
+    </text>
+
+    <!-- 5-Stage Pipeline Pills -->
+    <g transform="translate(0, 138)" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="700">
+      <rect x="0" y="0" width="110" height="30" rx="15" fill="#1E1B4B" stroke="#8B5CF6" />
+      <text x="18" y="19" fill="#DDD6FE">1. Propose</text>
+
+      <rect x="122" y="0" width="110" height="30" rx="15" fill="#0F2942" stroke="#38BDF8" />
+      <text x="142" y="19" fill="#BAE6FD">2. Explore</text>
+
+      <rect x="244" y="0" width="102" height="30" rx="15" fill="#0F2942" stroke="#0EA5E9" />
+      <text x="266" y="19" fill="#BAE6FD">3. Apply</text>
+
+      <rect x="358" y="0" width="102" height="30" rx="15" fill="#064E3B" stroke="#10B981" />
+      <text x="380" y="19" fill="#A7F3D0">4. Verify</text>
+
+      <rect x="472" y="0" width="114" height="30" rx="15" fill="#064E3B" stroke="#34D399" />
+      <text x="492" y="19" fill="#A7F3D0">5. Archive</text>
+    </g>
+  </g>
+</svg>

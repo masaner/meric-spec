@@ -1,0 +1,112 @@
+name: Meric-Spec CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-skills-and-links:
+    name: Validate skills.sh Catalog, Frontmatter & Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate skills.sh.json, SKILL.md frontmatter, specs/, and Markdown links
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+
+            const skillsReadme = path.join('skills', 'README.md');
+            if (!fs.existsSync(skillsReadme)) {
+              throw new Error('Missing ' + skillsReadme);
+            }
+            const specsReadme = path.join('specs', 'README.md');
+            if (!fs.existsSync(specsReadme)) {
+              throw new Error('Missing ' + specsReadme);
+            }
+
+            const skillsCfg = JSON.parse(fs.readFileSync('skills.sh.json', 'utf8'));
+            if (!Array.isArray(skillsCfg.groupings) || skillsCfg.groupings.length === 0) {
+              throw new Error('skills.sh.json must define non-empty groupings.');
+            }
+
+            const catalogSkills = new Set();
+            for (const group of skillsCfg.groupings) {
+              for (const skillId of group.skills || []) {
+                catalogSkills.add(skillId);
+                const skillMdPath = path.join('skills', skillId, 'SKILL.md');
+                if (!fs.existsSync(skillMdPath)) {
+                  throw new Error('Missing SKILL.md for skill in skills.sh.json: ' + skillMdPath);
+                }
+                const skillContent = fs.readFileSync(skillMdPath, 'utf8');
+                const fmMatch = skillContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+                if (!fmMatch) {
+                  throw new Error('Missing YAML frontmatter in ' + skillMdPath);
+                }
+                const nameMatch = fmMatch[1].match(/^name:\s*(.+)$/m);
+                const descMatch = fmMatch[1].match(/^description:\s*(.+)$/m);
+                if (!nameMatch || nameMatch[1].trim() !== skillId) {
+                  throw new Error('Frontmatter name mismatch in ' + skillMdPath);
+                }
+                if (!descMatch || !descMatch[1].trim()) {
+                  throw new Error('Missing frontmatter description in ' + skillMdPath);
+                }
+              }
+            }
+
+            const skillDirs = fs
+              .readdirSync('skills', { withFileTypes: true })
+              .filter((d) => d.isDirectory() && fs.existsSync(path.join('skills', d.name, 'SKILL.md')))
+              .map((d) => d.name);
+            const ungrouped = skillDirs.filter((dir) => !catalogSkills.has(dir));
+            if (ungrouped.length > 0) {
+              throw new Error('Skills missing from skills.sh.json: ' + ungrouped.join(', '));
+            }
+            console.log('Validated skills.sh.json and ' + catalogSkills.size + ' SKILL.md files.');
+
+            const mdFiles = [];
+            function collectMd(dir) {
+              for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                if (['node_modules', '.git'].includes(entry.name)) continue;
+                const full = path.join(dir, entry.name);
+                if (entry.isDirectory()) collectMd(full);
+                else if (entry.name.endsWith('.md')) mdFiles.push(full);
+              }
+            }
+            collectMd('.');
+
+            const broken = [];
+            for (const md of mdFiles) {
+              const lines = fs.readFileSync(md, 'utf8').split(/\r?\n/);
+              let inCode = false;
+              for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.trim().startsWith('\`\`\`')) {
+                  inCode = !inCode;
+                  continue;
+                }
+                if (inCode) continue;
+                for (const m of line.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
+                  const target = m[1].trim();
+                  if (/^(https?:|mailto:|#)/.test(target)) continue;
+                  const [filePart] = target.split('#');
+                  if (!filePart) continue;
+                  const resolved = path.normalize(path.join(path.dirname(md), filePart));
+                  if (!fs.existsSync(resolved)) {
+                    broken.push({ md, line: i + 1, target, resolved });
+                  }
+                }
+              }
+            }
+            console.log('Checked ' + mdFiles.length + ' Markdown files; broken relative links: ' + broken.length);
+            if (broken.length > 0) {
+              console.error(broken);
+              process.exit(1);
+            }
+          "
